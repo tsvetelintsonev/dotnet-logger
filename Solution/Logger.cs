@@ -1,4 +1,6 @@
-﻿namespace Solution
+﻿using System.Threading.Tasks;
+
+namespace Solution
 {
     public class Logger : ILogger
     {
@@ -11,7 +13,10 @@
         
         public void Log(string message)
         {
-            _sink.Write(message);
+            Task.Run(() =>
+            {
+                _sink.Write(message);
+            });
         }
     }
 }
