@@ -1,4 +1,5 @@
 ﻿using Solution.Enrichers;
+using Solution.Sinks;
 using System;
 using System.Threading.Tasks;
 

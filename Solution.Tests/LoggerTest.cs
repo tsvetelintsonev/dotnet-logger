@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Threading;
 using Moq;
 using NUnit.Framework;
+using Solution.Sinks;
 
 namespace Solution.Tests
 {

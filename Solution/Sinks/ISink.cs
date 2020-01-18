@@ -1,4 +1,4 @@
-﻿namespace Solution
+﻿namespace Solution.Sinks
 {
     public interface ISink
     {
