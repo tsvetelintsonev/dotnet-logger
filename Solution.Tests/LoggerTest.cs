@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Threading;
+using Moq;
 using NUnit.Framework;
 
 namespace Solution.Tests
@@ -27,6 +28,22 @@ namespace Solution.Tests
 
             Thread.Sleep(delay);
             Assert.AreEqual("Message", sink.WrittenLine);
+        }
+
+        [Test]
+        public void IsNotFailingIfExceptionIsThrown()
+        {
+            // Arrange
+            var sinkMock = new Mock<ISink>(MockBehavior.Strict);
+            var logger = new Logger(sinkMock.Object);
+
+            sinkMock.Setup(sink => sink.Write(It.IsAny<string>())).Throws(new Exception("Sink write failed."));
+
+            // Act
+            TestDelegate logAction = () => logger.Log("Message");
+
+            // Assert
+            Assert.DoesNotThrow(logAction);
         }
 
         public class SimulatedSlowSink : ISink

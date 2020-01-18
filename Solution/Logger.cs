@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 
 namespace Solution
 {
@@ -15,7 +16,14 @@ namespace Solution
         {
             Task.Run(() =>
             {
-                _sink.Write(message);
+                try
+                {
+                    _sink.Write(message);
+                }
+                catch (Exception)
+                {
+                    // Send email etc.
+                }
             });
         }
     }
