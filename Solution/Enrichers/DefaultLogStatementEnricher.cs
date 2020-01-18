@@ -2,7 +2,7 @@
 
 namespace Solution.Enrichers
 {
-    public class DefaultLogStatementEnricher
+    public class DefaultLogStatementEnricher : IDefaultLogStatementEnricher
     {
         public void EnrichWithTimestamp(ref string message) 
         {
