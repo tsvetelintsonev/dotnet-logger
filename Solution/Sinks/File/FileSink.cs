@@ -1,4 +1,4 @@
-﻿namespace Solution.Sinks
+﻿namespace Solution.Sinks.File
 {
     /// <summary>
     /// A sink for writing log messages to a file.
