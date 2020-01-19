@@ -40,17 +40,37 @@ namespace Solution.Tests
         }
 
         [Test]
-        public void IsWritingLogMessageToLogFile()
+        public void IsWritingLogMessage()
         {
             // Arrange
-            var logMessage = "Message";
-            var expectedLogMessage = $"{logMessage}{Environment.NewLine}";
+            var expectedLogMessage = "Message";
             var rollingFileSink = new RollingFileSink(new DirectoryInfo(_logsDirectoryPath));
 
-            // Assert
-            rollingFileSink.Write(logMessage);
+            // Act
+            rollingFileSink.Write(expectedLogMessage);
+            var logLines = File.ReadAllLines(_rollingStyleDateLogFilePath);
 
-            Assert.AreEqual(expectedLogMessage, File.ReadAllText(_rollingStyleDateLogFilePath));
+            // Assert
+            Assert.AreEqual(expectedLogMessage, logLines[0]);
+        }
+
+        [Test]
+        public void IsAppendingLogMessages()
+        {
+            // Arrange
+            var expectedFirstLogLine = "First Message";
+            var expectedSecondLogLine = "Second Message";
+            
+            var rollingFileSink = new RollingFileSink(new DirectoryInfo(_logsDirectoryPath));
+
+            // Act
+            rollingFileSink.Write(expectedFirstLogLine);
+            rollingFileSink.Write(expectedSecondLogLine);
+            var logLines = File.ReadAllLines(_rollingStyleDateLogFilePath);
+
+            // Assert
+            Assert.AreEqual(expectedFirstLogLine, logLines[0]);
+            Assert.AreEqual(expectedSecondLogLine, logLines[1]);
         }
     }
 }
