@@ -20,6 +20,11 @@ namespace Solution
         public Logger(IList<ISink> sinks)
         {
             _sinks = sinks ?? throw new ArgumentNullException(nameof(sinks));
+
+            if (sinks.Count == 0) 
+            {
+                throw new ArgumentException("At least one sink must be provided.", nameof(sinks));
+            }
         }
 
         /// <inheritdoc />

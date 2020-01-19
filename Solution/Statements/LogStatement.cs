@@ -1,6 +1,7 @@
-﻿using System;
+﻿using Solution.Statements;
+using System;
 
-namespace Solution.Statements
+namespace Solution
 {
     /// <summary>
     /// A log statement
@@ -22,19 +23,24 @@ namespace Solution.Statements
             Message = message ?? throw new ArgumentNullException(nameof(message));
         }
 
-        /// <inheritdoc />
+        /// <summary>
+        /// The timestamp at which the log statement occurred.
+        /// </summary>
         public DateTimeOffset Timestamp { get; private set; }
 
-        /// <inheritdoc />
+        /// <summary>
+        /// The level of the log statement.
+        /// </summary>
         public LogLevel LogLevel { get; private set; }
 
-        /// <inheritdoc />
+        /// <summary>
+        /// The message describing the log statement.
+        /// </summary>
         public string Message { get; private set; }
 
-        /// <inheritdoc />
-        public string Render()
+        public override string ToString() 
         {
-            if (_value == null)
+            if (_value == null) 
             {
                 _value = $"[{Timestamp.ToString("yyyy-MM-dd HH:mm:ss.FFF zzz")}] [{LogLevel}] [{Message}]";
             }
