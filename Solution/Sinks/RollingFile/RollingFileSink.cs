@@ -4,16 +4,16 @@
     /// A sink for writing log messages to a file.
     /// Default file rolling style is 'Date', a new file will be created at midnight.
     /// </summary>
-    public class FileSink : ISink
+    public class RollingFileSink : ISink
     {
         private readonly RollingStyle _rollingStyle;
 
-        public FileSink(RollingStyle rollingStyle)
+        public RollingFileSink(RollingStyle rollingStyle)
         {
             _rollingStyle = rollingStyle;
         }
 
-        public FileSink()
+        public RollingFileSink()
         {
             _rollingStyle = RollingStyle.Date;
         }
