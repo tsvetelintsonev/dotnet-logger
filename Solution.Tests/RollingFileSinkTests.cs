@@ -38,5 +38,19 @@ namespace Solution.Tests
 
             FileAssert.Exists(_rollingStyleDateLogFilePath);
         }
+
+        [Test]
+        public void IsWritingLogMessageToLogFile()
+        {
+            // Arrange
+            var logMessage = "Message";
+            var expectedLogMessage = $"{logMessage}{Environment.NewLine}";
+            var rollingFileSink = new RollingFileSink(new DirectoryInfo(_logsDirectoryPath));
+
+            // Assert
+            rollingFileSink.Write(logMessage);
+
+            Assert.AreEqual(expectedLogMessage, File.ReadAllText(_rollingStyleDateLogFilePath));
+        }
     }
 }
