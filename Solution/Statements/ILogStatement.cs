@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Solution
+namespace Solution.Statements
 {
     public interface ILogStatement
     {

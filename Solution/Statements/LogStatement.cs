@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Solution
+namespace Solution.Statements
 {
     /// <summary>
     /// A log statement
@@ -37,9 +37,9 @@ namespace Solution
         /// </summary>
         public string Message { get; private set; }
 
-        public override string ToString() 
+        public override string ToString()
         {
-            if (_value == null) 
+            if (_value == null)
             {
                 _value = $"[{Timestamp.ToString("yyyy-MM-dd HH:mm:ss.FFF zzz")}] [{LogLevel}] [{Message}]";
             }

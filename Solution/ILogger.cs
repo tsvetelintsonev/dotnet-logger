@@ -1,4 +1,6 @@
-﻿namespace Solution
+﻿using Solution.Statements;
+
+namespace Solution
 {
     /// <summary>
     /// The core API of the logger
