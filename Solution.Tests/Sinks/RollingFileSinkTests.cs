@@ -3,7 +3,7 @@ using Solution.Sinks;
 using System;
 using System.IO;
 
-namespace Solution.Tests
+namespace Solution.Tests.Sinks
 {
     [TestFixture]
     public class RollingFileSinkTests
@@ -29,7 +29,7 @@ namespace Solution.Tests
         public void IsCreatingLogFileWithDateRollingStyleIfFileDoesNotExists() 
         {
             // Arrange
-            var rollingFileSink = new RollingFileSink(new DirectoryInfo(_logsDirectoryPath));
+            var rollingFileSink = new RollingFileSink(new DirectoryInfo(_logsDirectoryPath), RollingStyle.Date);
 
             // Assert
             FileAssert.DoesNotExist(_rollingStyleDateLogFilePath);
@@ -44,7 +44,7 @@ namespace Solution.Tests
         {
             // Arrange
             var expectedLogMessage = "Message";
-            var rollingFileSink = new RollingFileSink(new DirectoryInfo(_logsDirectoryPath));
+            var rollingFileSink = new RollingFileSink(new DirectoryInfo(_logsDirectoryPath), RollingStyle.Date);
 
             // Act
             rollingFileSink.Write(expectedLogMessage);
@@ -61,7 +61,7 @@ namespace Solution.Tests
             var expectedFirstLogMessage = "First Message";
             var expectedSecondLogMessage = "Second Message";
             
-            var rollingFileSink = new RollingFileSink(new DirectoryInfo(_logsDirectoryPath));
+            var rollingFileSink = new RollingFileSink(new DirectoryInfo(_logsDirectoryPath), RollingStyle.Date);
 
             // Act
             rollingFileSink.Write(expectedFirstLogMessage);

@@ -13,26 +13,15 @@ namespace Solution.Sinks
         private readonly RollingStyle _rollingStyle;
 
         /// <summary>
-        /// Creates a new <see cref="RollingFileSink"/> isntance.
+        /// Constructs a new <see cref="RollingFileSink"/>
         /// </summary>
         /// <param name="directory">The directory used to write the log file to</param>
         /// <param name="rollingStyle">Rolling style used when creating new log files <see cref="RollingStyle"/></param>
         public RollingFileSink(DirectoryInfo directory, RollingStyle rollingStyle)
         {
             EnsureDirectoryExists(directory);
-            _directory = directory;
+            _directory = directory ?? throw new ArgumentNullException(nameof(directory));
             _rollingStyle = rollingStyle;
-        }
-
-        /// <summary>
-        /// Creates a new <see cref="RollingFileSink"/> isntance with 'Date' rolling style.
-        /// </summary>
-        /// <param name="directory">The directory used to write the log file to</param>
-        public RollingFileSink(DirectoryInfo directory)
-        {
-            EnsureDirectoryExists(directory);
-            _directory = directory;
-            _rollingStyle = RollingStyle.Date;
         }
 
         public void Write(string line)
