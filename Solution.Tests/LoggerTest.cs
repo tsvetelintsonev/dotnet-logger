@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
 using Moq;
@@ -16,7 +17,7 @@ namespace Solution.Tests
         {
             var delay = 1000;
             var sink = new SimulatedSlowSink(delay);
-            ILogger logger = new Logger(sink);
+            ILogger logger = new Logger(new List<ISink> { sink });
 
             var sw = Stopwatch.StartNew();
 
@@ -28,7 +29,7 @@ namespace Solution.Tests
             Assert.Less(sw.ElapsedMilliseconds, maxTimeToWriteToLogInMilliseconds);
 
             Thread.Sleep(delay);
-            Assert.AreEqual("Message", sink.WrittenLine);
+            Assert.True(sink.WrittenLine.Contains("Message"));
         }
 
         [Test]
@@ -36,7 +37,7 @@ namespace Solution.Tests
         {
             // Arrange
             var sinkMock = new Mock<ISink>(MockBehavior.Strict);
-            var logger = new Logger(sinkMock.Object);
+            var logger = new Logger(new List<ISink> { sinkMock.Object });
 
             sinkMock.Setup(sink => sink.Write(It.IsAny<string>())).Throws(new Exception("Sink write failed."));
 

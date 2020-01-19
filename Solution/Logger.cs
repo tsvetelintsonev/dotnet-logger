@@ -1,18 +1,19 @@
 ﻿using Solution.Enrichers;
 using Solution.Sinks;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Solution
 {
     public class Logger : ILogger
     {
-        private readonly ISink _sink;
+        private readonly IList<ISink> _sinks;
         private readonly IDefaultLogStatementEnricher _defaultLogStatementEnricher;
 
-        public Logger(ISink sink)
+        public Logger(IList<ISink> sinks)
         {
-            _sink = sink;
+            _sinks = sinks;
             _defaultLogStatementEnricher = new DefaultLogStatementEnricher();
         }
         
@@ -29,7 +30,7 @@ namespace Solution
 
                     _defaultLogStatementEnricher.EnrichWithTimestamp(ref message);
 
-                    _sink.Write(message);
+                    WriteToAllSinks(message);
                 }
                 catch (Exception)
                 {
@@ -56,6 +57,14 @@ namespace Solution
         public void LogError(string message)
         {
             Log(message, LogLevel.Error);
+        }
+
+        public void WriteToAllSinks(string message) 
+        {
+            foreach (var sink in _sinks)
+            {
+                sink.Write(message);
+            }
         }
     }
 }
