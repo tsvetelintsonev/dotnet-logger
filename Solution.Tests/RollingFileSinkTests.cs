@@ -58,19 +58,19 @@ namespace Solution.Tests
         public void IsAppendingLogMessages()
         {
             // Arrange
-            var expectedFirstLogLine = "First Message";
-            var expectedSecondLogLine = "Second Message";
+            var expectedFirstLogMessage = "First Message";
+            var expectedSecondLogMessage = "Second Message";
             
             var rollingFileSink = new RollingFileSink(new DirectoryInfo(_logsDirectoryPath));
 
             // Act
-            rollingFileSink.Write(expectedFirstLogLine);
-            rollingFileSink.Write(expectedSecondLogLine);
+            rollingFileSink.Write(expectedFirstLogMessage);
+            rollingFileSink.Write(expectedSecondLogMessage);
             var logLines = File.ReadAllLines(_rollingStyleDateLogFilePath);
 
             // Assert
-            Assert.AreEqual(expectedFirstLogLine, logLines[0]);
-            Assert.AreEqual(expectedSecondLogLine, logLines[1]);
+            Assert.AreEqual(expectedFirstLogMessage, logLines[0]);
+            Assert.AreEqual(expectedSecondLogMessage, logLines[1]);
         }
     }
 }
