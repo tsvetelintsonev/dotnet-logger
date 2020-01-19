@@ -52,6 +52,7 @@ namespace Solution.Sinks
                     fileName = DateTimeOffset.UtcNow.ToString("yyyy-MM-dd");
                     break;
                 default:
+                    fileName = DateTimeOffset.UtcNow.ToString("yyyy-MM-dd");
                     break;
             }
 
