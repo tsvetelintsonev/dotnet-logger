@@ -32,7 +32,7 @@ namespace Solution
         {
             if (_value == null) 
             {
-                _value = $"[{Timestamp.ToString("yyyy-MM-dd")}] [{LogLevel}] [{Message}]";
+                _value = $"[{Timestamp.ToString()}] [{LogLevel}] [{Message}]";
             }
             return _value;
         }

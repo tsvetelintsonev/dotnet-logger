@@ -27,7 +27,7 @@ namespace Solution
                 {
                     // Send email etc.
                 }
-            });
+            }).Wait();
         }
 
         public void LogDebug(string message) 
