@@ -41,7 +41,7 @@ namespace Solution
         {
             if (_value == null) 
             {
-                _value = $"[{Timestamp.ToString()}] [{LogLevel}] [{Message}]";
+                _value = $"[{Timestamp.ToString("yyyy-MM-dd HH:mm:ss.FFF zzz")}] [{LogLevel}] [{Message}]";
             }
             return _value;
         }
