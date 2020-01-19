@@ -22,10 +22,19 @@ namespace Solution
             Message = message ?? throw new ArgumentNullException(nameof(message));
         }
 
+        /// <summary>
+        /// The timestamp at which the log statement occurred.
+        /// </summary>
         public DateTimeOffset Timestamp { get; private set; }
 
+        /// <summary>
+        /// The level of the log statement.
+        /// </summary>
         public LogLevel LogLevel { get; private set; }
 
+        /// <summary>
+        /// The message describing the log statement.
+        /// </summary>
         public string Message { get; private set; }
 
         public override string ToString() 
