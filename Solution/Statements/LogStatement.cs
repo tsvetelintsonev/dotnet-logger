@@ -22,22 +22,17 @@ namespace Solution.Statements
             Message = message ?? throw new ArgumentNullException(nameof(message));
         }
 
-        /// <summary>
-        /// The timestamp at which the log statement occurred.
-        /// </summary>
+        /// <inheritdoc />
         public DateTimeOffset Timestamp { get; private set; }
 
-        /// <summary>
-        /// The level of the log statement.
-        /// </summary>
+        /// <inheritdoc />
         public LogLevel LogLevel { get; private set; }
 
-        /// <summary>
-        /// The message describing the log statement.
-        /// </summary>
+        /// <inheritdoc />
         public string Message { get; private set; }
 
-        public override string ToString()
+        /// <inheritdoc />
+        public string Render()
         {
             if (_value == null)
             {
