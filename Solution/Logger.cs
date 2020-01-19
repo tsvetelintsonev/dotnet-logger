@@ -11,7 +11,7 @@ namespace Solution
 
         public Logger(IList<ISink> sinks)
         {
-            _sinks = sinks;
+            _sinks = sinks ?? throw new ArgumentNullException(nameof(sinks));
         }
         
         public void Log(string message, LogLevel? logLevel = null)

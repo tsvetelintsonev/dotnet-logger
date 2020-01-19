@@ -12,7 +12,10 @@ namespace Solution.ConsoleApp
             var rollingFileSink = new RollingFileSink(logsDirectory, RollingStyle.Date);
             var logger = new Logger(new List<ISink> { rollingFileSink });
 
-            logger.LogInformation("Test information message");
+            logger.LogDebug("Test Debug message");
+            logger.LogInformation("Test Information message");
+            logger.LogWarning("Test Warning message");
+            logger.LogError("Test Error message");
         }
     }
 }
