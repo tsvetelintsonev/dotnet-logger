@@ -15,21 +15,21 @@ namespace Solution.Tests
         [Test]
         public void IsLoggingAsync()
         {
+            // Arrange
             var delay = 1000;
+            var maxTimeToWriteToLogInMilliseconds = delay;
             var sink = new SimulatedSlowSink(delay);
-            ILogger logger = new Logger(new List<ISink> { sink });
-
+            var logger = new Logger(new List<ISink> { sink });
             var sw = Stopwatch.StartNew();
 
+            // Act
             logger.Log("Message");
 
-
-            var maxTimeToWriteToLogInMilliseconds = delay;
-
+            // Assert
             Assert.Less(sw.ElapsedMilliseconds, maxTimeToWriteToLogInMilliseconds);
 
             Thread.Sleep(1500);
-            Assert.True(sink.WrittenLine.Contains("Message"));
+            Assert.AreEqual(sink.WrittenLine, logger.CurrentLogStatement.ToString());
         }
 
         [Test]

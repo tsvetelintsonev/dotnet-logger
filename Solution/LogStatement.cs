@@ -7,6 +7,8 @@ namespace Solution
     /// </summary>
     public class LogStatement : ILogStatement
     {
+        private string _value;
+
         /// <summary>
         /// Constructs a new <see cref="LogStatement"/>
         /// </summary>
@@ -28,7 +30,11 @@ namespace Solution
 
         public override string ToString() 
         {
-            return $"[{Timestamp.ToString("yyyy-MM-dd")}] [{LogLevel}] [{Message}]";
+            if (_value == null) 
+            {
+                _value = $"[{Timestamp.ToString("yyyy-MM-dd")}] [{LogLevel}] [{Message}]";
+            }
+            return _value;
         }
     }
 }
