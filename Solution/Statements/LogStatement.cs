@@ -38,7 +38,7 @@ namespace Solution
         /// </summary>
         public string Message { get; private set; }
 
-        public override string ToString() 
+        public string Render() 
         {
             if (_value == null) 
             {
