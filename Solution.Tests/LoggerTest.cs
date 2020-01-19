@@ -49,7 +49,7 @@ namespace Solution.Tests
         }
 
         [Test]
-        public void LogStatementIsWrittenByAllSinks() 
+        public void LogStatementIsWrittenToAllSinks() 
         {
             // Arrange
             var firstSinkMock = new Mock<ISink>(MockBehavior.Strict);
