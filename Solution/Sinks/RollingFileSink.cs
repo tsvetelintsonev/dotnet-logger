@@ -19,9 +19,9 @@ namespace Solution.Sinks
         /// <param name="rollingStyle">Rolling style used when creating new log files <see cref="RollingStyle"/></param>
         public RollingFileSink(DirectoryInfo directory, RollingStyle rollingStyle)
         {
-            EnsureDirectoryExists(directory);
             _directory = directory ?? throw new ArgumentNullException(nameof(directory));
             _rollingStyle = rollingStyle;
+            EnsureDirectoryExists(directory);
         }
 
         public void Write(string line)
