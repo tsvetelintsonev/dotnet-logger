@@ -28,7 +28,7 @@ namespace Solution.Tests
 
             Assert.Less(sw.ElapsedMilliseconds, maxTimeToWriteToLogInMilliseconds);
 
-            Thread.Sleep(delay);
+            Thread.Sleep(1500);
             Assert.True(sink.WrittenLine.Contains("Message"));
         }
 

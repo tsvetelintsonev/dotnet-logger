@@ -20,7 +20,8 @@ namespace Solution
             {
                 try
                 {
-                    WriteToAllSinks(message);
+                    CurrentLogStatement = new LogStatement(DateTimeOffset.UtcNow, logLevel ?? LogLevel.Information, message);
+                    WriteToAllSinks(CurrentLogStatement.ToString());
                 }
                 catch (Exception)
                 {
@@ -49,12 +50,16 @@ namespace Solution
             Log(message, LogLevel.Error);
         }
 
-        public void WriteToAllSinks(string message) 
+        public ILogStatement CurrentLogStatement { get; private set; }
+
+        private void WriteToAllSinks(string message) 
         {
             foreach (var sink in _sinks)
             {
                 sink.Write(message);
             }
         }
+
+
     }
 }
