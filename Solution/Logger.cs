@@ -1,5 +1,4 @@
-﻿using Solution.Enrichers;
-using Solution.Sinks;
+﻿using Solution.Sinks;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -9,12 +8,10 @@ namespace Solution
     public class Logger : ILogger
     {
         private readonly IList<ISink> _sinks;
-        private readonly IDefaultLogStatementEnricher _defaultLogStatementEnricher;
 
         public Logger(IList<ISink> sinks)
         {
             _sinks = sinks;
-            _defaultLogStatementEnricher = new DefaultLogStatementEnricher();
         }
         
         public void Log(string message, LogLevel? logLevel = null)
@@ -23,13 +20,6 @@ namespace Solution
             {
                 try
                 {
-                    if (logLevel != null) 
-                    {
-                        _defaultLogStatementEnricher.EnrichWithLogLevel(ref message, (LogLevel)logLevel);
-                    }
-
-                    _defaultLogStatementEnricher.EnrichWithTimestamp(ref message);
-
                     WriteToAllSinks(message);
                 }
                 catch (Exception)
