@@ -44,8 +44,7 @@ namespace Solution.Sinks
 
         private string CreateFileName(RollingStyle rollingStyle)
         {
-            var fileName = string.Empty;
-
+            string fileName;
             switch (rollingStyle)
             {
                 case RollingStyle.Date:
