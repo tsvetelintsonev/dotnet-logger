@@ -35,7 +35,7 @@ namespace Solution
                 try
                 {
                     CurrentLogStatement = new LogStatement(DateTimeOffset.UtcNow, logLevel ?? LogLevel.Information, message);
-                    WriteToAllSinks(CurrentLogStatement.ToString());
+                    WriteToAllSinks(CurrentLogStatement.Render());
                 }
                 catch (Exception)
                 {
