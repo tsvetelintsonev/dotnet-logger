@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Solution.Tests", "Solution.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Solution.ConsoleApp", "Solution.ConsoleApp\Solution.ConsoleApp.csproj", "{7A9D8B1A-47B3-4088-8D5E-A5D46765FB8D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FuturePerspectives", "FuturePerspectives\FuturePerspectives.csproj", "{B3DD37A4-46C3-4419-9DF4-0CFD61CD9BE3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{7A9D8B1A-47B3-4088-8D5E-A5D46765FB8D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7A9D8B1A-47B3-4088-8D5E-A5D46765FB8D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7A9D8B1A-47B3-4088-8D5E-A5D46765FB8D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B3DD37A4-46C3-4419-9DF4-0CFD61CD9BE3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B3DD37A4-46C3-4419-9DF4-0CFD61CD9BE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B3DD37A4-46C3-4419-9DF4-0CFD61CD9BE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B3DD37A4-46C3-4419-9DF4-0CFD61CD9BE3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
