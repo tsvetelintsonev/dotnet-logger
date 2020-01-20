@@ -1,6 +1,4 @@
-﻿using FuturePerspectives.Statements;
-
-namespace FuturePerspectives.Enrichers
+﻿namespace FuturePerspectives.Enrichers
 {
     public class DummyLogStatementEnricher : ILogStatementEnricher
     {

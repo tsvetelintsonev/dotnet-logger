@@ -1,4 +1,4 @@
-﻿namespace FuturePerspectives.Statements
+﻿namespace FuturePerspectives
 {
     public interface ILogStatementProperty
     {

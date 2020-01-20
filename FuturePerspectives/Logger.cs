@@ -1,55 +1,53 @@
-﻿using FuturePerspectives.Enrichers;
-using FuturePerspectives.Statements;
+﻿using FuturePerspectives;
+using FuturePerspectives.Enrichers;
+using FuturePerspectives.Renderers;
+using Solution.Dispatchers;
 using Solution.Sinks;
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 
-namespace FuturePerspectives
+namespace Solution
 {
     /// <summary>
     /// The core logging pipeline.
     /// </summary>
     public class Logger : ILogger
     {
-        private readonly IList<ISink> _sinks;
-        private readonly IList<ILogStatementEnricher> _enrichers;
+        private readonly ILogStatementDispatcher _logStatementDispatcher;
+        private readonly IList<ILogStatementEnricher> _logStatementEnrichers;
 
         /// <summary>
         /// Constructs a new <see cref="Logger"/>
         /// </summary>
-        /// <param name="sinks">The sinks to which the log statements will be written to.</param>
-        private Logger(IList<ISink> sinks, IList<ILogStatementEnricher> enrichers = null)
+        /// <param name="logStatementDispatcher">The log statement dispatcher <see cref="ILogStatementDispatcher"/></param>
+        private Logger(ILogStatementDispatcher logStatementDispatcher, IList<ILogStatementEnricher> logStatementEnrichers = null)
         {
-            _sinks = sinks ?? throw new ArgumentNullException(nameof(sinks));
-            
-            if (sinks.Count == 0)
-            {
-                throw new ArgumentException("At least one sink must be provided.", nameof(sinks));
-            }
-
-            _enrichers = enrichers;
+            _logStatementDispatcher = logStatementDispatcher;
+            _logStatementEnrichers = logStatementEnrichers;
         }
 
         /// <inheritdoc />
         public void Log(string message, LogLevel? logLevel = null)
         {
-            Task.Run(() =>
+            try
             {
-                try
+                var logStatementProperties = new List<ILogStatementProperty>();
+                foreach (var logStatementEnricher in _logStatementEnrichers)
                 {
-                    CurrentLogStatement = new LogStatement(DateTimeOffset.UtcNow, logLevel ?? LogLevel.Information, message);
-                    WriteToAllSinks(CurrentLogStatement.ToString());
+                    logStatementProperties.Add(logStatementEnricher.Enrich());
                 }
-                catch (Exception)
-                {
-                    // Send email etc.
-                }
-            });
+
+                var logStatement = new LogStatement(DateTimeOffset.UtcNow, logLevel ?? LogLevel.Information, message, logStatementProperties);
+                _logStatementDispatcher.Dispatch(logStatement);
+            }
+            catch (Exception)
+            {
+                // Send email etc.
+            }
         }
 
         /// <inheritdoc />
-        public void LogDebug(string message)
+        public void LogDebug(string message) 
         {
             Log(message, LogLevel.Debug);
         }
@@ -73,42 +71,46 @@ namespace FuturePerspectives
         }
 
         /// <inheritdoc />
-        public ILogStatement CurrentLogStatement { get; private set; }
-
-        private void WriteToAllSinks(string message)
+        public void Flush()
         {
-            foreach (var sink in _sinks)
-            {
-                sink.Write(message);
-            }
+            _logStatementDispatcher.EnsureDispatchingFinished();
         }
 
-        public class Builder 
+        public class Builder
         {
+            private IList<ILogStatementEnricher> _logStatementEnrichers;
             private IList<ISink> _sinks;
-            private IList<ILogStatementEnricher> _enrichers;
+            private ILogStatementDispatcher _logStatementDispatcher;
+            private ILogStatementRenderer _logStatementRenderer;
 
             public Builder()
             {
+                _logStatementEnrichers = new List<ILogStatementEnricher>();
                 _sinks = new List<ISink>();
-                _enrichers = new List<ILogStatementEnricher>();
             }
 
-            public Builder WriteTo(ISink sink) 
+            public Builder WriteTo(ISink sink)
             {
                 _sinks.Add(sink);
                 return this;
             }
 
-            public Builder EnrichWith(ILogStatementEnricher enricher) 
+            public Builder WithRenderer<TLogStatementRenderer>() where TLogStatementRenderer : ILogStatementRenderer, new()
             {
-                _enrichers.Add(enricher);
+                _logStatementRenderer = new TLogStatementRenderer();
                 return this;
             }
 
+            public Builder WithEnricher<TLogStatementEnricher>() where TLogStatementEnricher : ILogStatementEnricher, new()
+            {
+                var enricher = new TLogStatementEnricher();
+                _logStatementEnrichers.Add(enricher);
+                return this;
+            }
             public ILogger Build() 
             {
-                return new Logger(_sinks, _enrichers);
+                _logStatementDispatcher = new AsyncLogStatementDispatcher(_sinks, _logStatementRenderer);
+                return new Logger(_logStatementDispatcher, _logStatementEnrichers);
             }
         }
     }

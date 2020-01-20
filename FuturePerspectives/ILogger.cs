@@ -1,6 +1,4 @@
-﻿using FuturePerspectives.Statements;
-
-namespace FuturePerspectives
+﻿namespace Solution
 {
     /// <summary>
     /// The core API of the logger
@@ -40,8 +38,9 @@ namespace FuturePerspectives
         void LogError(string message);
 
         /// <summary>
-        /// The current log statement that is being logged.
+        /// Flushes all log statements.
+        /// This method should typically be called in an application "exiting" event listener or similar to ensure that all log statements are correctly persisted.
         /// </summary>
-        ILogStatement CurrentLogStatement { get; }
+        void Flush();
     }
 }

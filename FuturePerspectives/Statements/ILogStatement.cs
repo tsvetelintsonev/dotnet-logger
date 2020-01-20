@@ -1,6 +1,9 @@
-﻿using System;
+﻿using FuturePerspectives;
+using FuturePerspectives.Renderers;
+using System;
+using System.Collections.Generic;
 
-namespace FuturePerspectives.Statements
+namespace Solution.Statements
 {
     public interface ILogStatement
     {
@@ -19,10 +22,12 @@ namespace FuturePerspectives.Statements
         /// </summary>
         string Message { get; }
 
+        IList<ILogStatementProperty> Properties { get; }
+
         /// <summary>
-        /// Renders the <see cref="string"/> representation of the log statement 
+        /// Renders the <see cref="string"/> representation of the log statement.
         /// </summary>
         /// <returns></returns>
-        string Render();
+        string Render(ILogStatementRenderer renderer);
     }
 }

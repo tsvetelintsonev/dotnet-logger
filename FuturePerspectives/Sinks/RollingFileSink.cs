@@ -1,8 +1,7 @@
-﻿using Solution.Sinks;
-using System;
+﻿using System;
 using System.IO;
 
-namespace FuturePerspectives.Sinks
+namespace Solution.Sinks
 {
     /// <summary>
     /// A sink for writing log messages to a file.
@@ -25,24 +24,43 @@ namespace FuturePerspectives.Sinks
             EnsureDirectoryExists(directory);
         }
 
+        /// <inheritdoc />
         public void Write(string line)
         {
             var filePath = Path.Combine(_directory.FullName, CreateFileName(_rollingStyle));
-
-            using (var streamWriter = new StreamWriter(filePath, true))
+            try
             {
-                streamWriter.WriteLine(line);
+                using (var streamWriter = new StreamWriter(filePath, true))
+                {
+                    streamWriter.WriteLine(line);
+                }
             }
+            catch (Exception)
+            {
+                // Sent email etc.
+            }
+            
         }
 
-        private void EnsureDirectoryExists(DirectoryInfo directory)
+        /// <summary>
+        /// Creates the given directory if it doesn't exist.
+        /// </summary>
+        /// <param name="directory"></param>
+        private void EnsureDirectoryExists(DirectoryInfo directory) 
         {
-            if (!directory.Exists)
+            if (!directory.Exists) 
             {
                 Directory.CreateDirectory(directory.FullName);
             }
         }
 
+        /// <summary>
+        /// Creates a file name based on the given <see cref="RollingStyle" />
+        /// <para>Examples:</para>
+        /// <para>For <see cref="RollingStyle.Date"/> file name will be "yyyy-MM-dd" e.g. "2020-01-20"</para>
+        /// </summary>
+        /// <param name="rollingStyle">The <see cref="RollingStyle"/></param>
+        /// <returns>File name</returns>
         private string CreateFileName(RollingStyle rollingStyle)
         {
             string fileName;
@@ -60,7 +78,7 @@ namespace FuturePerspectives.Sinks
         }
     }
 
-    public enum RollingStyle
+    public enum RollingStyle 
     {
         Date
     }

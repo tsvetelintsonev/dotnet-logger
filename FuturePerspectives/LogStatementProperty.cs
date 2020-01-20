@@ -1,4 +1,4 @@
-﻿namespace FuturePerspectives.Statements
+﻿namespace FuturePerspectives
 {
     public class LogStatementProperty : ILogStatementProperty
     {
@@ -9,6 +9,7 @@
         }
 
         public string Name { get; private set; }
+
         public string Value { get; private set; }
     }
 }

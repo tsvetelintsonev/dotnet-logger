@@ -1,6 +1,10 @@
-﻿using System;
+﻿using FuturePerspectives;
+using FuturePerspectives.Renderers;
+using Solution.Statements;
+using System;
+using System.Collections.Generic;
 
-namespace FuturePerspectives.Statements
+namespace Solution
 {
     /// <summary>
     /// A log statement
@@ -15,28 +19,37 @@ namespace FuturePerspectives.Statements
         /// <param name="timestamp">The timestamp at which the log statement occurred.</param>
         /// <param name="logLevel">The level of the log statement.</param>
         /// <param name="message">The message describing the log statement.</param>
-        public LogStatement(DateTimeOffset timestamp, LogLevel logLevel, string message)
+        public LogStatement(DateTimeOffset timestamp, LogLevel logLevel, string message, IList<ILogStatementProperty> properties = null)
         {
             Timestamp = timestamp;
             LogLevel = logLevel;
             Message = message ?? throw new ArgumentNullException(nameof(message));
+            Properties = properties;
         }
 
-        /// <inheritdoc />
+        /// <summary>
+        /// The timestamp at which the log statement occurred.
+        /// </summary>
         public DateTimeOffset Timestamp { get; private set; }
 
-        /// <inheritdoc />
+        /// <summary>
+        /// The level of the log statement.
+        /// </summary>
         public LogLevel LogLevel { get; private set; }
 
-        /// <inheritdoc />
+        /// <summary>
+        /// The message describing the log statement.
+        /// </summary>
         public string Message { get; private set; }
 
+        public IList<ILogStatementProperty> Properties { get; private set; }
+
         /// <inheritdoc />
-        public string Render()
+        public string Render(ILogStatementRenderer renderer) 
         {
-            if (_value == null)
+            if (_value == null) 
             {
-                _value = $"[{Timestamp.ToString("yyyy-MM-dd HH:mm:ss.FFF zzz")}] [{LogLevel}] [{Message}]";
+                _value = renderer.Render(this);
             }
             return _value;
         }

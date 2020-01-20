@@ -52,7 +52,8 @@ Here are a few interesting sinks that could potentially be implemented:
 - Various NoSQL databases
 
 One possibly useful functionality extension would be to add an option for custom log statement enrichers.
-Another interesting functionality might be choosing between log statement output formats. This could be done by extending the `Logger` to support adding a collection of `LogStatementRenderer` and a configuration `LogStatementOutputFormat` for the output type that should be used e.g. `JSON` etc.
+Another interesting functionality might be choosing between log statement output formats. This could be done by extending the `Logger` to support adding a collection of `ILogStatementRenderer` e.g. `JsonLogStatementRenderer` etc.
+
 All these functionalities would eventually cause the `Logger` constructor to grow a lot and become a so called `fat controller`. One way this could be avoided is to introduce a fluent `Builder` for the `Logger`.
 
 # Note
