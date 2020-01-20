@@ -59,14 +59,21 @@ namespace Solution.Async
         /// </summary>
         private void WriteToAllSinks()
         {
-            while (true)
+            try
             {
-                var logStatement = _logQueue.Take();
-
-                foreach (var sink in _sinks)
+                while (true)
                 {
-                    sink.Write(logStatement.Render());
+                    var logStatement = _logQueue.Take();
+
+                    foreach (var sink in _sinks)
+                    {
+                        sink.Write(logStatement.Render());
+                    }
                 }
+            }
+            catch (Exception)
+            {
+                // Send email etc.
             }
         }
     }

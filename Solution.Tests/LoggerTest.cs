@@ -48,28 +48,6 @@ namespace Solution.Tests
             Assert.DoesNotThrow(logAction);
         }
 
-        [Test]
-        public void LogStatementIsWrittenToAllSinks() 
-        {
-            // Arrange
-            var firstSinkMock = new Mock<ISink>(MockBehavior.Strict);
-            var secondSinkMock = new Mock<ISink>(MockBehavior.Strict);
-            var thirdSinkMock = new Mock<ISink>(MockBehavior.Strict);
-            var logger = new Logger(new List<ISink> { firstSinkMock.Object, secondSinkMock.Object, thirdSinkMock.Object });
-
-            firstSinkMock.Setup(sink => sink.Write(It.IsAny<string>()));
-            secondSinkMock.Setup(sink => sink.Write(It.IsAny<string>()));
-            thirdSinkMock.Setup(sink => sink.Write(It.IsAny<string>()));
-
-            // Act
-            logger.Log("Message");
-
-            // Assert
-            firstSinkMock.Verify(sink => sink.Write(logger.CurrentLogStatement.Render()), Times.Once);
-            secondSinkMock.Verify(sink => sink.Write(logger.CurrentLogStatement.Render()), Times.Once);
-            thirdSinkMock.Verify(sink => sink.Write(logger.CurrentLogStatement.Render()), Times.Once);
-        }
-
         public class SimulatedSlowSink : ISink
         {
             private readonly int _delayInMilliseconds;
