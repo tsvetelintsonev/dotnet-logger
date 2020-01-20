@@ -27,11 +27,18 @@ namespace Solution.Sinks
         public void Write(string line)
         {
             var filePath = Path.Combine(_directory.FullName, CreateFileName(_rollingStyle));
-
-            using (var streamWriter = new StreamWriter(filePath, true)) 
+            try
             {
-                streamWriter.WriteLine(line);
+                using (var streamWriter = new StreamWriter(filePath, true))
+                {
+                    streamWriter.WriteLine(line);
+                }
             }
+            catch (Exception)
+            {
+                // Sent email etc.
+            }
+            
         }
 
         private void EnsureDirectoryExists(DirectoryInfo directory) 
