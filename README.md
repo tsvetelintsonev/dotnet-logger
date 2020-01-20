@@ -38,9 +38,9 @@ The 3 main areas of responsibilities in the solution are:
 The current implementation doesn't utilize an IoC container, but since all dependencies between the system's entities goes through a 'controller' injections, integrating such container should be a straight forward operation.
 
 ## Async support
-The solution is utilizing a single `Task` for asynchronous log statement writes to file through the `RollingFileSink`. The reason behind this is that a `Task` won't add much overhead to the application using the logger, because unlike a `Thread` it doesn't require its own stack allocation and kernel resources. 
+The solution is utilizing a single `Task` for asynchronous log statement writes to a file through the `RollingFileSink`. The reason behind this is that a `Task` won't add much overhead to the application using the logger, because unlike a `Thread` it doesn't require its own stack allocation and kernel resources. 
 
-A thread-safe `BlockingCollection` is used for storing log statements in `AsyncLogStatementDispatcher` in order to support concurrent log statement reads and writes. A typical use case scenario where this is useful would be a multi-threaded GUI application.
+A thread-safe `BlockingCollection` is used for storing log statements in `AsyncLogStatementDispatcher` in order to support concurrent log statement reads and writes. A typical use case scenario where this would be useful is a multi-threaded GUI application.
 
 ## Future perspectives
 Here are a few interesting sinks that could potentially be implemented:
@@ -54,7 +54,7 @@ Here are a few interesting sinks that could potentially be implemented:
 One possibly useful functionality extension would be to add an option for custom log statement enrichers.
 Another interesting functionality might be choosing between log statement output formats. This could be done by extending the `Logger` to support adding a collection of `ILogStatementRenderer` e.g. `JsonLogStatementRenderer` etc.
 
-All these functionalities would eventually cause the `Logger` constructor to grow a lot and become a so called `fat controller`. One way this could be avoided is to introduce a fluent `Builder` for the `Logger`.
+All these and any other future functionalities would eventually cause the `Logger` constructor to grow a lot and become a so called `fat controller`. One way this could be avoided is to introduce a fluent `Builder` for the `Logger`.
 
 # Note
 A `FuturePerspectives` project has been added containing many of the ideas for the future functionalities.
