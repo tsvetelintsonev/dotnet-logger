@@ -5,7 +5,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Threading;
 
-namespace Solution.Async
+namespace Solution.Dispatchers
 {
     public class AsyncLogStatementDispatcher : ILogStatementDispatcher
     {

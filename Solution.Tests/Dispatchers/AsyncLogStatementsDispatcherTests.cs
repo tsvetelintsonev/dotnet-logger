@@ -1,6 +1,6 @@
 ﻿using Moq;
 using NUnit.Framework;
-using Solution.Async;
+using Solution.Dispatchers;
 using Solution.Sinks;
 using System;
 using System.Collections.Generic;

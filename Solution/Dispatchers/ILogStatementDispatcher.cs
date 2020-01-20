@@ -1,6 +1,6 @@
 ﻿using Solution.Statements;
 
-namespace Solution.Async
+namespace Solution.Dispatchers
 {
     public interface ILogStatementDispatcher
     {
