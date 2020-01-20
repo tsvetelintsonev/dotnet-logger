@@ -29,7 +29,7 @@ namespace Solution.Tests
             Assert.Less(sw.ElapsedMilliseconds, maxTimeToWriteToLogInMilliseconds);
 
             Thread.Sleep(1500);
-            Assert.AreEqual(sink.WrittenLine, logger.CurrentLogStatement.ToString());
+            Assert.AreEqual(sink.WrittenLine, logger.CurrentLogStatement.Render());
         }
 
         [Test]
@@ -65,9 +65,9 @@ namespace Solution.Tests
             logger.Log("Message");
 
             // Assert
-            firstSinkMock.Verify(sink => sink.Write(logger.CurrentLogStatement.ToString()), Times.Once);
-            secondSinkMock.Verify(sink => sink.Write(logger.CurrentLogStatement.ToString()), Times.Once);
-            thirdSinkMock.Verify(sink => sink.Write(logger.CurrentLogStatement.ToString()), Times.Once);
+            firstSinkMock.Verify(sink => sink.Write(logger.CurrentLogStatement.Render()), Times.Once);
+            secondSinkMock.Verify(sink => sink.Write(logger.CurrentLogStatement.Render()), Times.Once);
+            thirdSinkMock.Verify(sink => sink.Write(logger.CurrentLogStatement.Render()), Times.Once);
         }
 
         public class SimulatedSlowSink : ISink
