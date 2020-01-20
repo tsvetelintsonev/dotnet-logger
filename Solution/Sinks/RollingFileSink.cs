@@ -24,6 +24,7 @@ namespace Solution.Sinks
             EnsureDirectoryExists(directory);
         }
 
+        /// <inheritdoc />
         public void Write(string line)
         {
             var filePath = Path.Combine(_directory.FullName, CreateFileName(_rollingStyle));
@@ -41,6 +42,10 @@ namespace Solution.Sinks
             
         }
 
+        /// <summary>
+        /// Creates the given directory if it doesn't exist.
+        /// </summary>
+        /// <param name="directory"></param>
         private void EnsureDirectoryExists(DirectoryInfo directory) 
         {
             if (!directory.Exists) 
@@ -49,6 +54,13 @@ namespace Solution.Sinks
             }
         }
 
+        /// <summary>
+        /// Creates a file name based on the given <see cref="RollingStyle" />
+        /// <para>Examples:</para>
+        /// <para>For <see cref="RollingStyle.Date"/> file name will be "yyyy-MM-dd" e.g. "2020-01-20"</para>
+        /// </summary>
+        /// <param name="rollingStyle">The <see cref="RollingStyle"/></param>
+        /// <returns>File name</returns>
         private string CreateFileName(RollingStyle rollingStyle)
         {
             string fileName;

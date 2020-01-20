@@ -38,6 +38,7 @@ namespace Solution
         /// </summary>
         public string Message { get; private set; }
 
+        /// <inheritdoc />
         public string Render() 
         {
             if (_value == null) 

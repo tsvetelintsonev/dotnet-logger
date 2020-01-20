@@ -20,7 +20,7 @@ namespace Solution.Statements
         string Message { get; }
 
         /// <summary>
-        /// Renders the <see cref="string"/> representation of the log statement 
+        /// Renders the <see cref="string"/> representation of the log statement.
         /// </summary>
         /// <returns></returns>
         string Render();

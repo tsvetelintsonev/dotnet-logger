@@ -37,7 +37,7 @@ namespace Solution.Dispatchers
         }
 
         /// <summary>
-        /// Dispatches the given log statement asynchronously to all sinks
+        /// Dispatches the given log statement asynchronously to all sinks.
         /// </summary>
         /// <param name="logStatement">The <see cref="ILogStatement" /></param>
         public void Dispatch(ILogStatement logStatement)
@@ -46,7 +46,7 @@ namespace Solution.Dispatchers
         }
 
         /// <summary>
-        /// Ensures that all log statements have been dispatched, in this case joins the calling <see cref="Thread" />.
+        /// Ensures that all log statements are dispatched, in this case joins the calling <see cref="Thread" />.
         /// This method should typically be called in an application "exiting" event listener or similar to ensure that all log statements are correctly persisted.
         /// </summary>
         public void EnsureDispatchingFinished()
