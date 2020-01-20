@@ -10,7 +10,7 @@ namespace Solution.Async
     public class AsyncLogStatementDispatcher : ILogStatementDispatcher
     {
         private readonly IList<ISink> _sinks;
-        private readonly Thread _writingThread;
+        private readonly Thread _thread;
         private readonly BlockingCollection<ILogStatement> _logQueue;
 
         /// <summary>
@@ -29,11 +29,11 @@ namespace Solution.Async
             _sinks = sinks;
             _logQueue = new BlockingCollection<ILogStatement>();
 
-            _writingThread = new Thread(WriteToAllSinks);
-            _writingThread.Name = "Log writer thread";
-            _writingThread.IsBackground = true;
-            _writingThread.Priority = ThreadPriority.BelowNormal;
-            _writingThread.Start();
+            _thread = new Thread(WriteToAllSinks);
+            _thread.Name = "Log writer thread";
+            _thread.IsBackground = true;
+            _thread.Priority = ThreadPriority.BelowNormal;
+            _thread.Start();
         }
 
         /// <summary>
@@ -51,7 +51,8 @@ namespace Solution.Async
         /// </summary>
         public void EnsureDispatchingFinished()
         {
-            _writingThread.Join();
+            _logQueue.CompleteAdding();
+            _thread.Join();
         }
 
         /// <summary>
