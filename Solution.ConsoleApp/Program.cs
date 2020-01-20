@@ -19,6 +19,7 @@ namespace Solution.ConsoleApp
             logger.LogWarning("Test Warning message");
             logger.LogError("Test Error message");
 
+            logger.Flush();
         }
     }
 }
