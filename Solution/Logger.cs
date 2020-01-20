@@ -1,8 +1,5 @@
-﻿using Solution.Sinks;
-using Solution.Statements;
+﻿using Solution.Dispatchers;
 using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Solution
 {
@@ -11,37 +8,29 @@ namespace Solution
     /// </summary>
     public class Logger : ILogger
     {
-        private readonly IList<ISink> _sinks;
+        private readonly ILogStatementDispatcher _logStatementDispatcher;
 
         /// <summary>
         /// Constructs a new <see cref="Logger"/>
         /// </summary>
-        /// <param name="sinks">The sinks to which the log statements will be written to.</param>
-        public Logger(IList<ISink> sinks)
+        /// <param name="logStatementDispatcher">The log statement dispatcher <see cref="ILogStatementDispatcher"/></param>
+        public Logger(ILogStatementDispatcher logStatementDispatcher)
         {
-            _sinks = sinks ?? throw new ArgumentNullException(nameof(sinks));
-
-            if (sinks.Count == 0) 
-            {
-                throw new ArgumentException("At least one sink must be provided.", nameof(sinks));
-            }
+            _logStatementDispatcher = logStatementDispatcher;
         }
 
         /// <inheritdoc />
         public void Log(string message, LogLevel? logLevel = null)
         {
-            Task.Run(() =>
+            try
             {
-                try
-                {
-                    CurrentLogStatement = new LogStatement(DateTimeOffset.UtcNow, logLevel ?? LogLevel.Information, message);
-                    WriteToAllSinks(CurrentLogStatement.Render());
-                }
-                catch (Exception)
-                {
-                    // Send email etc.
-                }
-            });
+                var logStatement = new LogStatement(DateTimeOffset.UtcNow, logLevel ?? LogLevel.Information, message);
+                _logStatementDispatcher.Dispatch(logStatement);
+            }
+            catch (Exception)
+            {
+                // Send email etc.
+            }
         }
 
         /// <inheritdoc />
@@ -69,16 +58,9 @@ namespace Solution
         }
 
         /// <inheritdoc />
-        public ILogStatement CurrentLogStatement { get; private set; }
-
-        private void WriteToAllSinks(string message) 
+        public void Flush()
         {
-            foreach (var sink in _sinks)
-            {
-                sink.Write(message);
-            }
+            _logStatementDispatcher.EnsureDispatchingFinished();
         }
-
-
     }
 }

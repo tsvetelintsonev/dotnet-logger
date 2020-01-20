@@ -47,7 +47,7 @@ namespace Solution.Dispatchers
 
         /// <summary>
         /// Ensures that all log statements have been dispatched, in this case joins the calling <see cref="Thread" />.
-        /// This method should typically be called in an application "exiting" event listener or similar to ensure that all log statements are correctly written.
+        /// This method should typically be called in an application "exiting" event listener or similar to ensure that all log statements are correctly persisted.
         /// </summary>
         public void EnsureDispatchingFinished()
         {

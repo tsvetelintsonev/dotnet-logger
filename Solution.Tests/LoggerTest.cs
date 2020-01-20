@@ -4,7 +4,9 @@ using System.Diagnostics;
 using System.Threading;
 using Moq;
 using NUnit.Framework;
+using Solution.Dispatchers;
 using Solution.Sinks;
+using Solution.Statements;
 
 namespace Solution.Tests
 {
@@ -19,17 +21,16 @@ namespace Solution.Tests
             var delay = 1000;
             var maxTimeToWriteToLogInMilliseconds = delay;
             var sink = new SimulatedSlowSink(delay);
-            var logger = new Logger(new List<ISink> { sink });
+            var logStatementDispathcer = new AsyncLogStatementDispatcher(new List<ISink> { sink });
+
             var sw = Stopwatch.StartNew();
 
             // Act
+            var logger = new Logger(logStatementDispathcer);
             logger.Log("Message");
 
             // Assert
             Assert.Less(sw.ElapsedMilliseconds, maxTimeToWriteToLogInMilliseconds);
-
-            Thread.Sleep(1500);
-            Assert.AreEqual(sink.WrittenLine, logger.CurrentLogStatement.Render());
         }
 
         [Test]
@@ -37,11 +38,12 @@ namespace Solution.Tests
         {
             // Arrange
             var sinkMock = new Mock<ISink>(MockBehavior.Strict);
-            var logger = new Logger(new List<ISink> { sinkMock.Object });
+            var logStatementDispathcerMock = new Mock<ILogStatementDispatcher>(MockBehavior.Strict);
 
             sinkMock.Setup(sink => sink.Write(It.IsAny<string>())).Throws(new Exception("Sink write failed."));
 
             // Act
+            var logger = new Logger(logStatementDispathcerMock.Object);
             TestDelegate logAction = () => logger.Log("Message");
 
             // Assert
