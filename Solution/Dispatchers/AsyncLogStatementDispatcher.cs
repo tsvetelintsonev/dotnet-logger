@@ -4,13 +4,14 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace Solution.Dispatchers
 {
     public class AsyncLogStatementDispatcher : ILogStatementDispatcher
     {
         private readonly IList<ISink> _sinks;
-        private readonly Thread _thread;
+        private readonly Task _task;
         private readonly BlockingCollection<ILogStatement> _logQueue;
 
         /// <summary>
@@ -29,11 +30,8 @@ namespace Solution.Dispatchers
             _sinks = sinks;
             _logQueue = new BlockingCollection<ILogStatement>();
 
-            _thread = new Thread(WriteToAllSinks);
-            _thread.Name = "Log writer thread";
-            _thread.IsBackground = true;
-            _thread.Priority = ThreadPriority.BelowNormal;
-            _thread.Start();
+            _task = new Task(() => WriteToAllSinks());
+            _task.Start();
         }
 
         /// <summary>
@@ -51,8 +49,15 @@ namespace Solution.Dispatchers
         /// </summary>
         public void EnsureDispatchingFinished()
         {
-            _logQueue.CompleteAdding();
-            _thread.Join();
+            try
+            {
+                _logQueue.CompleteAdding();
+                _task.Wait();
+            }
+            catch (Exception)
+            {
+                // Send email etc.
+            }
         }
 
         /// <summary>
