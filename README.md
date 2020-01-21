@@ -56,5 +56,7 @@ Another interesting functionality might be choosing between log statement output
 
 All these and any other future functionalities would eventually cause the `Logger` constructor to grow a lot and become a so called `fat controller`. One way this could be avoided is to introduce a fluent `Builder` for the `Logger`.
 
+An `IDisposable` support could be considered, should a greater control over resources becomes a priority.
+
 # Note
 A `FuturePerspectives` project has been added containing many of the ideas for the future functionalities.
